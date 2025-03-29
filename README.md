@@ -12,8 +12,8 @@ A simple Streamlit application to manage projects. This application allows you t
 
 1. Clone this repository:
 ```
-git clone <repository-url>
-cd <repository-directory>
+git clone https://github.com/bmj2728/project-manager-streamlit.git
+cd project-manager-streamlit
 ```
 
 2. Install the required dependencies:
