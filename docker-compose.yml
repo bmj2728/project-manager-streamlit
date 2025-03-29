@@ -8,4 +8,4 @@ services:
       - "8501:8501"
     volumes:
       # Map local projects directory to container projects directory
-      - "/home/brian/projects:/app/projects"
+      - "./projects:/app/projects"

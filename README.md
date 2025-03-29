@@ -6,9 +6,45 @@ A simple Streamlit application to manage projects. This application allows you t
 - Create new projects (creates a directory and initializes a git repository)
 - Delete existing projects (removes the directory and all its contents)
 
-## Installation
+# Installation
 
-### Option 1: Local Installation
+## Option 1: Docker Deployment (Recommended)
+
+#### Prerequisites
+- Docker and Docker Compose installed on your system
+
+#### Quick Start with Pre-built Image
+
+The simplest way to run this application is using our pre-built Docker image from GitHub Container Registry:
+
+1. Create a docker-compose.yml file:
+```yaml
+services:
+  streamlit-app:
+    image: ghcr.io/bmj2728/pyprojman:latest
+    container_name: project-manager
+    restart: unless-stopped
+    ports:
+      # Map container port 8501 to host port 8501 (can be changed)
+      - "8501:8501"
+    volumes:
+      # Map local projects directory to container projects directory
+      - "./projects:/app/projects"
+```
+
+2. Update the volume path in the docker-compose.yml:
+   - Replace `"./projects"` with the actual path on your system where you want to store projects
+   - For example: `"/home/username/projects"`
+
+3. Start the container:
+```
+docker-compose up -d
+```
+
+4. Access the application at http://localhost:8501
+
+
+## Option 2: Local Installation
 
 1. Clone this repository:
 ```
@@ -39,55 +75,6 @@ brew install git
 4. Run the Streamlit application:
 ```
 streamlit run app.py
-```
-
-### Option 2: Docker Deployment (Recommended)
-
-#### Prerequisites
-- Docker and Docker Compose installed on your system
-
-#### Quick Start with Pre-built Image
-
-The simplest way to run this application is using our pre-built Docker image from GitHub Container Registry:
-
-1. Create a docker-compose.yml file:
-```yaml
-services:
-  streamlit-app:
-    image: ghcr.io/bmj2728/pyprojman:latest
-    container_name: project-manager
-    restart: unless-stopped
-    ports:
-      - "8501:8501"  # Map container port 8501 to host port 8501
-    volumes:
-      - "/path/to/your/projects:/app/projects"  # Map your projects directory
-```
-
-2. Update the volume path in the docker-compose.yml:
-   - Replace `/path/to/your/projects` with the actual path on your system where you want to store projects
-   - For example: `/home/username/projects`
-
-3. Start the container:
-```
-docker-compose up -d
-```
-
-4. Access the application at http://localhost:8501
-
-#### Customization
-
-You can customize the port and projects directory path directly in the docker-compose.yml file:
-
-```yaml
-services:
-  streamlit-app:
-    image: ghcr.io/bmj2728/pyprojman:latest
-    container_name: project-manager
-    restart: unless-stopped
-    ports:
-      - "9000:8501"  # Change 9000 to any port you prefer
-    volumes:
-      - "/home/user/my-projects:/app/projects"  # Change to your preferred directory
 ```
 
 #### Building Your Own Image (Alternative)
