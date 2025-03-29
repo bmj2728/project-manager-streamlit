@@ -41,63 +41,74 @@ brew install git
 streamlit run app.py
 ```
 
-### Option 2: Docker Deployment
+### Option 2: Docker Deployment (Recommended)
 
 #### Prerequisites
 - Docker and Docker Compose installed on your system
 
-#### Separated Build and Deploy Workflow
+#### Quick Start with Pre-built Image
 
-##### Build Stage
-Build the Docker image:
+The simplest way to run this application is using our pre-built Docker image from GitHub Container Registry:
+
+1. Create a docker-compose.yml file:
+```yaml
+services:
+  streamlit-app:
+    image: ghcr.io/bmj2728/pyprojman:latest
+    container_name: project-manager
+    restart: unless-stopped
+    ports:
+      - "8501:8501"  # Map container port 8501 to host port 8501
+    volumes:
+      - "/path/to/your/projects:/app/projects"  # Map your projects directory
 ```
-# Use the build script (recommended)
-./build.sh
 
-# Or build manually
-docker build --no-cache -t project-manager:latest .
-```
+2. Update the volume path in the docker-compose.yml:
+   - Replace `/path/to/your/projects` with the actual path on your system where you want to store projects
+   - For example: `/home/username/projects`
 
-This creates a Docker image with the tag `project-manager:latest` that can be deployed using docker-compose.
-
-##### Deploy Stage
-Deploy the pre-built image using docker-compose:
+3. Start the container:
 ```
 docker-compose up -d
 ```
 
-This approach properly separates the build process from deployment, allowing you to:
-- Build once, deploy multiple times
-- Build on one system, deploy on another
-- Version and tag your images for different environments
+4. Access the application at http://localhost:8501
 
 #### Customization
 
-You can customize the deployment by creating a `.env` file based on the provided `.env.example`:
+You can customize the port and projects directory path directly in the docker-compose.yml file:
 
-```
-cp .env.example .env
-```
-
-Then edit the `.env` file to set:
-- `STREAMLIT_PORT`: The port on which Streamlit will be accessible (default: 8501)
-- `PROJECTS_DIR`: The directory on the host machine to store projects (default: ./projects)
-
-Example:
-```
-STREAMLIT_PORT=9000
-PROJECTS_DIR=/home/user/my-projects
+```yaml
+services:
+  streamlit-app:
+    image: ghcr.io/bmj2728/pyprojman:latest
+    container_name: project-manager
+    restart: unless-stopped
+    ports:
+      - "9000:8501"  # Change 9000 to any port you prefer
+    volumes:
+      - "/home/user/my-projects:/app/projects"  # Change to your preferred directory
 ```
 
-After modifying the `.env` file, restart the container:
+#### Building Your Own Image (Alternative)
+
+If you prefer to build the image yourself:
+
 ```
-docker-compose down
-docker-compose up -d
+# Clone the repository
+git clone https://github.com/bmj2728/project-manager-streamlit.git
+cd project-manager-streamlit
+
+# Build the image
+docker build -t project-manager:latest .
+
+# Update your docker-compose.yml to use your local image
+# image: project-manager:latest
 ```
 
 ## Usage
 
-1. Open your web browser and navigate to the URL displayed in the terminal (typically http://localhost:8501).
+1. Open your web browser and navigate to http://localhost:8501 (or the port you configured).
 
 2. Use the sidebar to create or delete projects.
 
@@ -132,19 +143,14 @@ docker-compose up -d
 - GitPython
 - Git (system dependency)
 
-## Docker Build Details
+## Docker Image Details
 
-The Dockerfile uses a multi-stage build approach:
-
-1. **Build Stage**: Installs all dependencies in an isolated environment
-2. **Runtime Stage**: Copies only necessary files from the build stage to minimize the final image size
-
-The Docker image includes:
+The Docker image is available at `ghcr.io/bmj2728/pyprojman:latest` and includes:
 - Python 3.9
 - Git (required by GitPython)
 - All Python dependencies specified in requirements.txt
 
-This approach results in a smaller, more efficient container.
+The image uses a multi-stage build approach for smaller, more efficient containers.
 
 ## License
 

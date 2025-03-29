@@ -1,6 +1,6 @@
 services:
   streamlit-app:
-    image: project-manager:latest
+    image: ghcr.io/bmj2728/pyprojman:latest
     container_name: project-manager
     restart: unless-stopped
     ports:
