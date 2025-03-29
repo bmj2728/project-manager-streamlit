@@ -1,0 +1,11 @@
+services:
+  streamlit-app:
+    image: project-manager:latest
+    container_name: project-manager
+    restart: unless-stopped
+    ports:
+      # Map container port 8501 to host port 8501 (can be changed)
+      - "8501:8501"
+    volumes:
+      # Map local projects directory to container projects directory
+      - "/home/brian/projects:/app/projects"
