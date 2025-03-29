@@ -174,4 +174,4 @@ else:
 
 # Footer
 st.markdown("---")
-st.markdown("&copy; 2023 Project Manager | Built with Streamlit") 
+st.markdown("&copy; 2025 Project Manager | Built with Streamlit") 

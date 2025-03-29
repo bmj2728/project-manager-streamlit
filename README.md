@@ -144,4 +144,8 @@ The Docker image includes:
 - Git (required by GitPython)
 - All Python dependencies specified in requirements.txt
 
-This approach results in a smaller, more efficient container. 
+This approach results in a smaller, more efficient container.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details. 
